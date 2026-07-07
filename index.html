@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CMSC | European Asset Verification Portal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root { --eu-blue: #003399; --eu-gold: #ffcc00; --dark-blue: #002366; }
+        body { font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: #f4f7f9; margin: 0; color: #333; }
+        
+        header { background: var(--dark-blue); color: white; padding: 30px 20px; text-align: center; border-bottom: 5px solid var(--eu-gold); box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+        header h1 { margin: 0; font-size: 26px; letter-spacing: 1px; text-transform: uppercase; }
+        header p { margin: 5px 0 0; font-size: 14px; color: var(--eu-gold); font-weight: bold; }
+
+        .container { max-width: 850px; margin: 40px auto; background: white; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); overflow: hidden; border: 1px solid #e1e4e8; }
+        
+        .top-bar { background: #f8f9fa; padding: 15px 30px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; }
+        .ref-number { font-size: 12px; font-weight: bold; color: #d63031; background: #fff0f0; padding: 4px 10px; border-radius: 4px; border: 1px solid #fab1a0; }
+        .status-verified { color: #28a745; font-weight: bold; font-size: 13px; text-transform: uppercase; }
+
+        .content { padding: 40px; }
+        h2 { color: var(--dark-blue); border-bottom: 2px solid #eee; padding-bottom: 10px; margin-bottom: 20px; }
+
+        .calc-box { background: #f0f4f8; border: 1px solid #d1d9e0; padding: 25px; border-radius: 6px; margin-bottom: 30px; }
+        label { display: block; font-weight: bold; margin-bottom: 10px; color: var(--dark-blue); font-size: 14px; text-transform: uppercase; }
+        input { width: 100%; padding: 18px; border: 1px solid #abbbc8; border-radius: 4px; font-size: 22px; font-weight: bold; box-sizing: border-box; color: var(--dark-blue); background: #fff; }
+
+        /* Protocol Cards */
+        .protocol-selection { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 10px; margin: 25px 0; }
+        .card { border: 2px solid #e1e4e8; padding: 15px 10px; border-radius: 6px; text-align: center; cursor: pointer; transition: 0.2s; background: white; }
+        .card:hover { border-color: var(--eu-blue); }
+        .card.active { border-color: var(--eu-blue); background: #eef4ff; box-shadow: 0 4px 12px rgba(0,51,153,0.1); }
+        .card i { font-size: 20px; color: var(--eu-blue); margin-bottom: 8px; }
+        .card h3 { font-size: 12px; margin: 5px 0; color: #333; }
+        .card .fee { display: block; font-weight: 800; color: #b91c1c; font-size: 14px; }
+        .card .time { font-size: 10px; color: #666; font-weight: bold; }
+        .card.no-fee .fee { color: #28a745; }
+
+        .summary { background: var(--dark-blue); color: white; padding: 30px; border-radius: 6px; margin-top: 20px; }
+        .summary-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.1); font-size: 15px; }
+        .summary-row.total { border: none; font-size: 24px; font-weight: 800; color: var(--eu-gold); padding-top: 20px; }
+
+        .legal-notice { margin-top: 30px; padding: 20px; background: #fffdf0; border: 1px solid #f5e79e; border-left: 5px solid var(--eu-gold); font-size: 13px; line-height: 1.6; }
+
+        .btn-action { display: block; background: #28a745; color: white; text-align: center; padding: 22px; text-decoration: none; border-radius: 6px; font-weight: bold; font-size: 20px; margin-top: 30px; transition: 0.3s; text-transform: uppercase; letter-spacing: 1px; }
+        .btn-action:hover { background: #218838; transform: translateY(-2px); }
+
+        footer { text-align: center; padding: 40px; color: #777; font-size: 12px; }
+    </style>
+</head>
+<body>
+
+<header>
+    <img src="https://upload.wikimedia.org/wikipedia/commons/b/b7/Flag_of_Europe.svg" width="50" style="margin-bottom: 10px;">
+    <h1>Crypto Market Security Commission</h1>
+    <p>EUROPEAN FINANCIAL SUPERVISION AUTHORITY</p>
+</header>
+
+<div class="container">
+    <div class="top-bar">
+        <span class="ref-number">REF NUMBER: CMSC/EU/2026-99410-INV</span>
+        <span class="status-verified"><i class="fas fa-shield-check"></i> MiCA COMPLIANT PORTAL</span>
+    </div>
+
+    <div class="content">
+        <h2>Asset Release Authorization</h2>
+        <p style="font-size: 15px; color: #555;">Please enter the authorized amount to calculate the mandatory MiCA liquidity synchronization. You may also select an optional acceleration protocol.</p>
+
+        <div class="calc-box">
+            <label>ENTER THE TOTAL AMOUNT YOU WISH TO RECEIVE (EUR):</label>
+            <input type="number" id="amount" placeholder="e.g. 55000" oninput="updateCalculation()">
+        </div>
+
+        <label>SELECT DISBURSEMENT PROTOCOL (OPTIONAL):</label>
+        <div class="protocol-selection">
+            <!-- ????? ?????: ??? ????????? -->
+            <div class="card no-fee" id="p0" onclick="selectProtocol(0, 'Standard (No Acceleration)', 'p0')">
+                <i class="fas fa-clock"></i>
+                <h3>STANDARD</h3>
+                <span class="fee">0.00 EUR</span>
+                <span class="time">14-21 Days</span>
+            </div>
+            <div class="card" id="p1" onclick="selectProtocol(5000, 'Priority Release', 'p1')">
+                <i class="fas fa-university"></i>
+                <h3>PRIORITY</h3>
+                <span class="fee">5,000 EUR</span>
+                <span class="time">7-10 Days</span>
+            </div>
+            <div class="card" id="p2" onclick="selectProtocol(8000, 'Express Release', 'p2')">
+                <i class="fas fa-bolt"></i>
+                <h3>EXPRESS</h3>
+                <span class="fee">8,000 EUR</span>
+                <span class="time">3-5 Days</span>
+            </div>
+            <div class="card active" id="p3" onclick="selectProtocol(12000, 'Flash Release', 'p3')">
+                <i class="fas fa-rocket"></i>
+                <h3>FLASH</h3>
+                <span class="fee">12,000 EUR</span>
+                <span class="time">24 Hours</span>
+            </div>
+        </div>
+
+        <div class="summary">
+            <div class="summary-row"><span>Principal Asset Value:</span><span id="res-main">0.00 EUR</span></div>
+            <div class="summary-row"><span>Liquidity Guarantee (Mandatory):</span><span id="res-margin">0.00 EUR</span></div>
+            <div class="summary-row"><span>Acceleration Deposit (Optional):</span><span id="res-speed">12,000.00 EUR</span></div>
+            <div class="summary-row total"><span>TOTAL DISBURSEMENT:</span><span id="res-total">0.00 EUR</span></div>
+        </div>
+
+        <div class="legal-notice">
+            <strong>REGULATORY NOTICE:</strong> The Liquidity Guarantee is a mandatory blockchain synchronization deposit under MiCA Art. 19. The Acceleration Deposit is optional. **All deposits are 100% refundable** and will be added to your total payout balance.
+        </div>
+
+        <a id="wa-link" href="#" class="btn-action">
+            <i class="fab fa-whatsapp"></i> Finalize Release & Contact Officer
+        </a>
+    </div>
+</div>
+
+<footer>
+    &copy; 2024-2026 Crypto Market Security Commission (CMSC).<br>
+    European Banking Authority (EBA) | Rue de la Loi 200, 1049 Brussels, Belgium.
+</footer>
+
+<script>
+    let protocolFee = 12000;
+    let protocolName = "Flash Release (24h)";
+
+    function selectProtocol(fee, name, id) {
+        protocolFee = fee;
+        protocolName = name;
+        document.querySelectorAll('.card').forEach(c => c.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+        updateCalculation();
+    }
+
+    function updateCalculation() {
+        let amount = document.getElementById('amount').value || 0;
+        
+        let margin = amount * 0.05;
+        if (margin < 2500 && amount > 0) margin = 2500;
+        if (amount == 0) margin = 0;
+
+        let total = parseFloat(amount) + parseFloat(margin) + parseFloat(protocolFee);
+
+        document.getElementById('res-main').innerText = parseFloat(amount).toLocaleString('en-GB', {minimumFractionDigits: 2}) + " EUR";
+        document.getElementById('res-margin').innerText = margin.toLocaleString('en-GB', {minimumFractionDigits: 2}) + " EUR";
+        document.getElementById('res-speed').innerText = protocolFee.toLocaleString('en-GB', {minimumFractionDigits: 2}) + " EUR";
+        document.getElementById('res-total').innerText = (amount > 0 ? total.toLocaleString('en-GB', {minimumFractionDigits: 2}) : "0.00") + " EUR";
+
+        let waMsg = `CASE REF: CMSC/EU/2026. Requesting release of ${amount} EUR via ${protocolName}. Please provide deposit instructions.`;
+        document.getElementById('wa-link').href = `https://wa.me/447348202458?text=${encodeURIComponent(waMsg)}`;
+    }
+
+    updateCalculation();
+</script>
+
+</body>
+</html>
